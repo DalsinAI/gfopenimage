@@ -120,11 +120,11 @@ repository (or `OPENDATATYPES` names one).
 
 ## Licence
 
-AmigaChrome Team's Amiga changes (the build script, patches, configuration
-headers and tests) are MIT, Copyright (c) 2026 AmigaChrome Team: see
+AmiCradle Team's Amiga changes (the build script, patches, configuration
+headers and tests) are MIT, Copyright (c) 2026 AmiCradle Team: see
 [LICENSE](LICENSE). zlib, libpng, libjpeg, libwebp, libvpx keep their own licences, in
 [upstream/](upstream/); a patch to their source stays under that licence.
 
 ## Contributors
 
-openamigaimage is created and maintained by [SacredTrees](https://github.com/SacredTrees) with The AmigaChrome Team, copyright AmigaChrome Team. Everyone whose work it includes is credited in [`CONTRIBUTORS.md`](CONTRIBUTORS.md).
+openamigaimage is created and maintained by [SacredTrees](https://github.com/SacredTrees) with The AmiCradle Team, copyright AmiCradle Team. Everyone whose work it includes is credited in [`CONTRIBUTORS.md`](CONTRIBUTORS.md).

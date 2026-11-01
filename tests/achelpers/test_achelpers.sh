@@ -9,7 +9,7 @@
 # libjpeg's and libpng's ways of calling memcpy, memmove and memset
 # (string_test.c); and Datatypes/common/dtlib.c's calloc and realloc work
 # with the helpers and without (dtmem_test.c), from DalsinAI/opendatatypes.
-# MIT, Copyright (c) 2026 AmigaChrome Team.
+# MIT, Copyright (c) 2026 AmiCradle Team.
 #
 #   AMIGACHROME_GUEST  as for build.sh
 #   OPENDATATYPES  a DalsinAI/opendatatypes checkout, for dtlib.c (default
