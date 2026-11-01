@@ -1,10 +1,10 @@
-# Restart: openamigaimage (OpenImage datatypes)
+# Restart: openamigaimage (GFOpenImage datatypes)
 
 _Written 6 October 2026 at about 23:55 UTC, while all work is paused on @SacredTrees's word (23:28 UTC). Read this first when work resumes; the newest capsule and the live PR list win if they disagree._
 
 ## What this repo is
 
-zlib, libpng, libjpeg, libwebp-based and modern datatypes for AmigaOS 3.x: about 40 formats (AVIF, HEIC, JXL, FLAC, Opus, office documents, MP4/MKV video, SVG and more), most decoded on the Cradle host through the Nursery services. Ships as OpenUp's OpenImage part.
+zlib, libpng, libjpeg, libwebp-based and modern datatypes for AmigaOS 3.x: about 40 formats (AVIF, HEIC, JXL, FLAC, Opus, office documents, MP4/MKV video, SVG and more), most decoded on the Cradle host through the Nursery services. Ships as GFOpenUp's GFOpenImage part.
 
 ## Where it stands
 
