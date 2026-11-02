@@ -1,19 +1,19 @@
 #!/bin/sh
-# openamigaimage's use of AC090's native helpers (achelpers/), with an m68k
+# gfopenimage's use of AC090's native helpers (achelpers/), with an m68k
 # cross GCC and qemu-m68k, since the Amiga compiler and the upstream
 # tarballs are on the build PC. At -O0 and -O2 for the 68040:
-# achelpers.sh builds the helpers from amigachrome-guest at the pinned
+# achelpers.sh builds the helpers from amicradle-guest at the pinned
 # commit; zlibsums.sh, run on stand-ins for zlib's crc32.c and adler32.c
 # (zstub/, with the host's zlib.h), gives zlib's results and sends long
 # buffers to the helpers (zlib_test.c); the forced header takes zlib's,
 # libjpeg's and libpng's ways of calling memcpy, memmove and memset
 # (string_test.c); and Datatypes/common/dtlib.c's calloc and realloc work
-# with the helpers and without (dtmem_test.c), from DalsinAI/opendatatypes.
+# with the helpers and without (dtmem_test.c), from DalsinAI/gfopendatatypes.
 # MIT, Copyright (c) 2026 AmiCradle Team.
 #
 #   AMIGACHROME_GUEST  as for build.sh
-#   OPENDATATYPES  a DalsinAI/opendatatypes checkout, for dtlib.c (default
-#                opendatatypes beside this repository; without one that
+#   OPENDATATYPES  a DalsinAI/gfopendatatypes checkout, for dtlib.c (default
+#                gfopendatatypes beside this repository; without one that
 #                part is skipped)
 #   M68K_CC, M68K_PREFIX, QEMU_M68K  the cross tools (default m68k-linux-gnu-gcc,
 #                m68k-linux-gnu-, qemu-m68k)
@@ -23,7 +23,7 @@
 set -eu
 here=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 root=$here/../..
-odt=${OPENDATATYPES:-$root/../opendatatypes}
+odt=${OPENDATATYPES:-$root/../gfopendatatypes}
 cc=${M68K_CC:-m68k-linux-gnu-gcc}
 prefix=${M68K_PREFIX:-m68k-linux-gnu-}
 qemu=${QEMU_M68K:-qemu-m68k}
@@ -59,7 +59,7 @@ for flags in "-O0 -m68040" "-O2 -m68040"; do
     say "$("$qemu" -cpu "$cpu" "$t/string_test" || true) (memcpy, memmove and memset, $flags)"
 
     # dtlib.c's memory functions on their own, with the helpers and without
-    [ -f "$odt/Datatypes/common/dtlib.c" ] || { echo "skipped: dtlib.c (no opendatatypes checkout at $odt; set OPENDATATYPES)"; continue; }
+    [ -f "$odt/Datatypes/common/dtlib.c" ] || { echo "skipped: dtlib.c (no gfopendatatypes checkout at $odt; set OPENDATATYPES)"; continue; }
     for on in 1 0; do
         {
             echo '#include "dtmem_stub.h"'
