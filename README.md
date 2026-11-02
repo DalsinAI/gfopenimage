@@ -1,9 +1,9 @@
-# openamigaimage
+# gfopenimage
 
 zlib, libpng and libjpeg for AmigaOS 3.x on 68k, built as static link libraries for
 GCC programs. The project's datatypes moved to
-[DalsinAI/opendatatypes](https://github.com/DalsinAI/opendatatypes) (see [Datatypes](#datatypes)). Part of the [GFOpenAmiga](https://github.com/DalsinAI/openamiga)
-ports, made for [GFOpenBrowser](https://github.com/DalsinAI/openamigabrowser),
+[DalsinAI/gfopendatatypes](https://github.com/DalsinAI/gfopendatatypes) (see [Datatypes](#datatypes)). Part of the [GFOpenAmiga](https://github.com/DalsinAI/gfopenamiga)
+ports, made for [GFOpenBrowser](https://github.com/DalsinAI/gfopenbrowser),
 the WebKit browser for AmigaOS 3.2.
 
 **Status:** Working: all three libraries build, and the smoke test's round trips pass on the bench. The WebP and WebM datatypes decode on the bench exactly as on x86 cores.
@@ -28,7 +28,7 @@ for the library goes to its authors; see `upstream/` for their notices.
 ## What the Amiga port changes
 
 - No source changes. zlib is Chromium's copy of 1.3.1 (the one in AROS's ports cache), built with its plain C code and without Chromium's symbol renaming. libpng uses its prebuilt `pnglibconf.h`; libjpeg its `jconfig.txt`.
-- AC090's native helpers (`AC_HELPERS=1`; `AC_HELPERS=0` builds the libraries as before; the default, `auto`, is 1 when the pinned amigachrome-guest commit is to hand and 0 otherwise, and says which). zlib's checksums and the big copies and fills in all three libraries go through amigachrome-guest's `common/amiga/ac_helpers`: magic functions that AmiCradle's AC090 runs as x86 or ARM64 code, and that run as 68k code written for the 68020 and 68040 on a real Amiga. In AC090's JIT (68040, 64 KB calls, on the Team's x86 cores in the cloud, 6 October 2026) crc32 ran at about 20 GB/s against 130 MB/s for zlib's own braided crc32 as 68k code, adler32 at about 20 GB/s against 1.1 GB/s, and a copy at about 33 GB/s against 2 (a longword loop) to 5 (MOVEM). Build flags and our own small files in `achelpers/` do it, not changes to the libraries:
+- AC090's native helpers (`AC_HELPERS=1`; `AC_HELPERS=0` builds the libraries as before; the default, `auto`, is 1 when the pinned amicradle-guest commit is to hand and 0 otherwise, and says which). zlib's checksums and the big copies and fills in all three libraries go through amicradle-guest's `common/amiga/ac_helpers`: magic functions that AmiCradle's AC090 runs as x86 or ARM64 code, and that run as 68k code written for the 68020 and 68040 on a real Amiga. In AC090's JIT (68040, 64 KB calls, on the Team's x86 cores in the cloud, 6 October 2026) crc32 ran at about 20 GB/s against 130 MB/s for zlib's own braided crc32 as 68k code, adler32 at about 20 GB/s against 1.1 GB/s, and a copy at about 33 GB/s against 2 (a longword loop) to 5 (MOVEM). Build flags and our own small files in `achelpers/` do it, not changes to the libraries:
   - `achelpers/zlibsums.sh` compiles zlib's own `crc32`, `crc32_z`, `adler32` and `adler32_z` under other names (`oai_zlib_*`), and `achelpers/ac_zlib.c` takes the public names: a buffer of 32 bytes or more goes to the helpers, a shorter one (or none) to zlib's own, with zlib's results for every call. So inflate's and deflate's checks, the gz functions and libpng's chunk CRCs all use them. Chromium's `copy_with_crc` (deflate's gzip path) calls crc32 inside `crc32.c`, so it moves to `ac_zlib.c` too when it is the plain copy and crc32 we expect; the script says which. zlib's API and ABI are unchanged (`crc32_combine` and the rest are zlib's own).
   - `achelpers/ac_string.h` is forced (`-include`) into every compile of the three libraries: `memcpy`, `memmove` and `memset` calls of 64 bytes or more (zlib's window, libpng's rows, libjpeg's buffers) go to the helpers, smaller ones stay GCC's own code.
   - The helper objects go into each of `libz.a`, `libpng.a` and `libjpeg.a`, so link lines stay as they were.
@@ -37,7 +37,7 @@ for the library goes to its authors; see `upstream/` for their notices.
 ## Building
 
 You need the os32-gcc16 compiler (bebbo's amiga-gcc on GCC 16.2 with libnix
-and libpthread; see DalsinAI/openamigabrowser `stove/`) and the upstream
+and libpthread; see DalsinAI/gfopenbrowser `stove/`) and the upstream
 tarballs from [SOURCES](SOURCES) in `tarballs/`. A tarball that isn't there is fetched
 from the URL SOURCES gives and kept only if its SHA-256 matches
 (`tools/fetch-tarball.sh`), so a fresh clone builds on a machine with internet;
@@ -59,9 +59,9 @@ goes through a null pointer.
 
 Link with: `-lpng -ljpeg -lz -lm`
 
-With `AC_HELPERS=1` (or `auto`, the default) the script also needs amigachrome-guest
+With `AC_HELPERS=1` (or `auto`, the default) the script also needs amicradle-guest
 at the commit in [AMIGACHROME_GUEST_PINNED_COMMIT](AMIGACHROME_GUEST_PINNED_COMMIT):
-a checkout that has that commit, beside this repository (`../amigachrome-guest`,
+a checkout that has that commit, beside this repository (`../amicradle-guest`,
 else `../guest`) or named by `AMIGACHROME_GUEST`. `achelpers/achelpers.sh`
 reads the helper sources from it at that commit, so other work in the
 checkout does not matter. Under `auto`, a build that cannot find the commit
@@ -105,9 +105,9 @@ ok   zlibsums.sh leaves deflate's gzip crc to zlib when crc32.c has no plain cop
 The datatypes (`webp`, `webm`, `gfopenpicture`, `gfopenpng`, `gfopentga`,
 `gfopensound`, `gfopenmodule`, `gfopendoc`, `cdxl` and `gfopenvideo.datatype`) moved,
 with their history, to
-[DalsinAI/opendatatypes](https://github.com/DalsinAI/opendatatypes) on
+[DalsinAI/gfopendatatypes](https://github.com/DalsinAI/gfopendatatypes) on
 23 October 2026, at the same path (`Datatypes/`). `tests/achelpers` still
-checks their `dtlib.c` here when an opendatatypes checkout sits beside this
+checks their `dtlib.c` here when a gfopendatatypes checkout sits beside this
 repository (or `OPENDATATYPES` names one).
 
 ## Known issues
@@ -127,4 +127,4 @@ headers and tests) are MIT, Copyright (c) 2026 AmiCradle Team: see
 
 ## Contributors
 
-openamigaimage is created and maintained by [SacredTrees](https://github.com/SacredTrees) with The AmiCradle Team, copyright AmiCradle Team. Everyone whose work it includes is credited in [`CONTRIBUTORS.md`](CONTRIBUTORS.md).
+gfopenimage is created and maintained by [SacredTrees](https://github.com/SacredTrees) with The AmiCradle Team, copyright AmiCradle Team. Everyone whose work it includes is credited in [`CONTRIBUTORS.md`](CONTRIBUTORS.md).

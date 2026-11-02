@@ -1,4 +1,4 @@
-/* openamigaimage smoke test: zlib round trip, PNG write and read back,
+/* gfopenimage smoke test: zlib round trip, PNG write and read back,
  * JPEG compress and decompress. */
 #include <stdio.h>
 #include <string.h>
